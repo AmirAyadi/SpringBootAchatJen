@@ -8,17 +8,17 @@ pipeline {
             }
              stage('Unit Testing') {
                 steps {
-                    sh 'mvn test'
+                    sh 'mvn test -X'
                 }
             }
              stage('Integration Testing') {
                 steps {
-                    sh 'mvn verify -DskipUnitTests'
+                    sh 'mvn verify -DskipUnitTests -X'
                 }
             }
             stage('Maven Build') {
                 steps {
-                    sh 'mvn clean install'
+                    sh 'mvn clean install -X'
                 }
             }
             
