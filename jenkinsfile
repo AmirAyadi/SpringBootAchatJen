@@ -8,12 +8,12 @@ pipeline {
             }
             stage('Verify') {
                 steps {
-                    sh 'mvn verify -X'
+                    sh 'mvn -U verify -X'
                 }
             }
              stage('Unit Testing') {
                 steps {
-                    sh 'mvn test -X'
+                    sh 'mvn -U test -X'
                 }
             }
              stage('Integration Testing') {
