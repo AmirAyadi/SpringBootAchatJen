@@ -9,6 +9,7 @@ pipeline {
             stage('Verify') {
                 steps {
                     sh 'mvn --version'
+                    sh 'which mvn'
                 }
             }
              stage('Unit Testing') {
