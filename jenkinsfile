@@ -6,6 +6,11 @@ pipeline {
                     git 'https://github.com/AmirAyadi/SpringBootAchatJen.git'
                 }
             }
+            stage('Verify') {
+                steps {
+                    sh 'mvn verify -X'
+                }
+            }
              stage('Unit Testing') {
                 steps {
                     sh 'mvn test -X'
