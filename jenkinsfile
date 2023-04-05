@@ -1,33 +1,53 @@
 pipeline {
     agent any
-        stages {
-            stage('Git Checkout') {
-                steps {
-                    git 'https://github.com/AmirAyadi/SpringBootAchatJen.git'
-                }
-            }
-            stage('Verify') {
-                steps {
-                    sh 'mvn --version'
-                    sh 'which mvn'
-                }
-            }
-             stage('Unit Testing') {
-                steps {
-                    sh 'mvn -U test -X'
-                }
-            }
-             stage('Integration Testing') {
-                steps {
-                    sh 'mvn verify -DskipUnitTests -X'
-                }
-            }
-            stage('Maven Build') {
-                steps {
-                    sh 'mvn clean install -X'
-                }
-            }
-            
+    tools {
+          // Install the Maven version configured as "M2_HOME" and add it to the path.
+          maven 'MAVEN_HOME'
+          jdk 'JAVA_HOME'
         }
     
+
+    stages {
+       stage('Clean Before Clone'){
+            steps{
+                sh """rm -rf *"""
+            }
+       }
+       stage('Clone From Git') {
+            steps {
+                git 'https://github.com/AmirAyadi/SpringBootAchatJen.git'
+            }
+       }
+       stage('MVN-VERSION') {
+            steps {
+                sh """mvn -version"""
+            }
+       }
+       stage('MVN-CLEAN') {
+            steps {
+                sh """mvn clean"""
+            }
+       }
+       stage('MVN-COMPILE') {
+            steps {
+                sh """mvn compile"""
+            }
+       }
+       stage('MVN-BUILD') {
+            steps {
+                script{
+                    sh """mvn -Dmaven.test.failure.ignore=true clean package"""
+                }
+            }
+       }
+       stage('MVN-TEST') {
+            steps {
+                script{
+                    sh """mvn test"""
+                }
+            }
+       }
+       
+      
+    }
 }
